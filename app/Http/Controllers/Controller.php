@@ -2,19 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TempatWisata;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
-class WisataController extends Controller
+class Controller extends BaseController
 {
-    public function index()
-    {
-        $wisata = TempatWisata::with(['kategori', 'kota'])->get();
-        return view('wisata.index', compact('wisata'));
-    }
-
-    public function show($id)
-    {
-        $wisata = TempatWisata::with(['kategori', 'kota'])->findOrFail($id);
-        return view('wisata.show', compact('wisata'));
-    }
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

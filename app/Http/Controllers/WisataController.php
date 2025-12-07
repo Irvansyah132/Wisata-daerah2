@@ -17,5 +17,5 @@ class WisataController extends Controller
         $wisata = TempatWisata::with(['kategori','kota'])->findOrFail($id);
         return view('wisata.show', compact('wisata'));
     }
-    
+
 }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\KategoriWisata;
+use App\Models\Kota;
 
 class TempatWisata extends Model
 {
@@ -27,4 +29,5 @@ class TempatWisata extends Model
     {
         return $this->belongsTo(Kota::class, 'kota_id');
     }
+    
 }
