@@ -3,8 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Kategoriwisata extends Model
+class KategoriWisata extends Model
 {
-    //
+    use HasFactory;
+
+    protected $table = 'kategori_wisata';
+
+    protected $fillable = [
+        'nama_kategori',
+    ];
+
+    public function tempatWisata()
+    {
+        return $this->hasMany(TempatWisata::class, 'kategori_id');
+    }
 }

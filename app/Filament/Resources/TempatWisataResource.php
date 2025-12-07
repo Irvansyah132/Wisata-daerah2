@@ -3,27 +3,38 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\TempatWisataResource\Pages;
-use App\Filament\Resources\TempatWisataResource\RelationManagers;
 use App\Models\TempatWisata;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TempatWisataResource extends Resource
 {
     protected static ?string $model = TempatWisata::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-map';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('nama_tempat')
+                    ->required(),
+
+                Forms\Components\Textarea::make('deskripsi')
+                    ->required(),
+
+                Forms\Components\Select::make('kategori_id')
+                    ->label('Kategori Wisata')
+                    ->relationship('kategori', 'nama_kategori')
+                    ->required(),
+
+                Forms\Components\Select::make('kota_id')
+                    ->label('Kota')
+                    ->relationship('kota', 'nama_kota')
+                    ->required(),
             ]);
     }
 
@@ -31,10 +42,23 @@ class TempatWisataResource extends Resource
     {
         return $table
             ->columns([
-                //
-            ])
-            ->filters([
-                //
+                Tables\Columns\TextColumn::make('nama_tempat')->searchable(),
+
+                Tables\Columns\TextColumn::make('kategori.nama_kategori')
+                    ->label('Kategori')
+                    ->sortable()->searchable(),
+
+                Tables\Columns\TextColumn::make('kota.nama_kota')
+                    ->label('Kota')
+                    ->sortable()->searchable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -44,13 +68,6 @@ class TempatWisataResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
