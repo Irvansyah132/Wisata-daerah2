@@ -8,13 +8,14 @@ class WisataController extends Controller
 {
     public function index()
     {
-        $wisata = TempatWisata::with(['kategori', 'kota'])->get();
+        $wisata = TempatWisata::with(['kategori','kota'])->get();
         return view('wisata.index', compact('wisata'));
     }
 
     public function show($id)
     {
-        $wisata = TempatWisata::with(['kategori', 'kota'])->findOrFail($id);
+        $wisata = TempatWisata::with(['kategori','kota'])->findOrFail($id);
         return view('wisata.show', compact('wisata'));
     }
+    
 }
